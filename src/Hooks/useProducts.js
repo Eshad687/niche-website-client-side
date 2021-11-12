@@ -1,16 +1,19 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
+import useDelete from "./useDelete";
 
 const useProducts = (page) => {
     const [products, setProducts] = useState([]);
-    console.log(page)
+    const { productDeleted, handleProductDelete } = useDelete()
+    console.log(productDeleted);
     useEffect(() => {
         axios.get(`http://localhost:5000/products?page=${page}`)
             .then(res => setProducts(res.data))
-    }, [])
+    }, [productDeleted])
 
     return {
-        products
+        products,
+        handleProductDelete
     }
 }
 export default useProducts;

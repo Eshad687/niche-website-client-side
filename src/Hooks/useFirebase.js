@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 import initializeAuthentication from "../Firebase/firebase.init";
+import axios from "axios";
 
 initializeAuthentication();
 
@@ -10,7 +11,8 @@ const useFirebase = () => {
     const [isLoading, setIsLoading] = useState(true)
     const [user, setUser] = useState({});
     const [errorMessage, setErrorMessage] = useState('');
-    const googleProvider = new GoogleAuthProvider();
+    const [admin, setAdmin] = useState(false)
+    // const googleProvider = new GoogleAuthProvider();
 
     const auth = getAuth();
 
@@ -21,7 +23,7 @@ const useFirebase = () => {
 
                 setUser(user);
 
-
+                console.log(user)
 
 
             } else {
@@ -31,12 +33,17 @@ const useFirebase = () => {
         });
     }, [])
 
-    // handling google sign in
-    const signInWithGoogle = () => {
-        setIsLoading(true);
-        return signInWithPopup(auth, googleProvider);
+    useEffect(() => {
+        axios.get(`http://localhost:5000/users/${user.email}`)
+            .then(res => setAdmin(res.data.admin))
+    }, [user.email])
 
-    }
+    // handling google sign in
+    // const signInWithGoogle = () => {
+    //     setIsLoading(true);
+    //     return signInWithPopup(auth, googleProvider);
+
+    // }
 
     // creating user
     const createUser = (email, password) => {
@@ -76,12 +83,13 @@ const useFirebase = () => {
         user,
         errorMessage,
         isLoading,
+        admin,
         setIsLoading,
         updateName,
         setErrorMessage,
         createUser,
         signInWithEmailPassword,
-        signInWithGoogle,
+        //signInWithGoogle,
         logOut
     }
 

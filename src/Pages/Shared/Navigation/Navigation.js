@@ -13,10 +13,13 @@ import MenuIcon from '@mui/icons-material/Menu';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { Button } from '@mui/material';
 import { NavLink } from 'react-router-dom';
+import useAuth from '../../../Hooks/useAuth';
+import CustomButton from '../../../StyledComponents/CustomButton';
 
 
 const Navigation = () => {
-
+    // getting data from authentication context api
+    const { user, logOut, setErrorMessage } = useAuth();
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
 
@@ -61,9 +64,19 @@ const Navigation = () => {
                 <Button  > <NavLink style={{ textDecoration: "none", color: "grey" }} to="/explore">Explore</NavLink> </Button>
 
             </MenuItem>
-            <MenuItem >
-                <Button  > <NavLink style={{ textDecoration: "none", color: "grey" }} to="/loginsignup">Login</NavLink> </Button>
-            </MenuItem>
+
+            {user?.email && <MenuItem>
+                <Button  > <NavLink style={{ textDecoration: "none", color: "grey" }} to="/dashboard">Dashboard</NavLink> </Button>
+
+            </MenuItem>}
+            {user?.email && <MenuItem> <Typography variant="h6"> {user.displayName}</Typography></MenuItem>}
+            {
+                user.email ? <MenuItem >
+                    <CustomButton onClick={logOut} variant="contained" > Logout </CustomButton>
+                </MenuItem> : <MenuItem >
+                    <Button  > <NavLink style={{ textDecoration: "none", color: "grey" }} to="/loginsignup">Login</NavLink> </Button>
+                </MenuItem>
+            }
         </Menu>
     );
 
@@ -94,7 +107,17 @@ const Navigation = () => {
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                         <Button  > <NavLink style={{ textDecoration: "none", color: "#fff" }} to="/home">Home</NavLink> </Button>
                         <Button  > <NavLink style={{ textDecoration: "none", color: "#fff" }} to="/explore">Explore</NavLink> </Button>
-                        <Button  > <NavLink style={{ textDecoration: "none", color: "#fff" }} to="/loginsignup">Login</NavLink> </Button>
+
+                        {user?.email && <Button  > <NavLink style={{ textDecoration: "none", color: "#fff" }} to="/dashboard">Dashboard</NavLink> </Button>}
+                        {user?.email && <Typography variant="h6" sx={{ mx: 1 }}> {user.displayName}</Typography>}
+                        {
+                            user.email ?
+                                <CustomButton onClick={logOut} variant="contained" > Logout </CustomButton>
+                                :
+                                <Button  > <NavLink style={{ textDecoration: "none", color: "#fff" }} to="/loginsignup">Login</NavLink> </Button>
+
+                        }
+
 
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }}>

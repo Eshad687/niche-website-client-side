@@ -1,5 +1,5 @@
 import { Grid } from '@mui/material';
-import React from 'react';
+
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -9,12 +9,15 @@ import CustomButton from '../../../StyledComponents/CustomButton';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useHistory } from 'react-router';
 
-const Product = ({ product }) => {
+
+const Product = ({ product, handleProductDelete, children }) => {
     const { name, img, desc, price, _id } = product;
     const history = useHistory();
     const handlePurchaseNow = (id) => {
         history.push(`product/${id}`);
     }
+
+
     return (
         <Grid item xs={12} md={4}>
             <Card sx={{ maxWidth: 345 }}>
@@ -38,9 +41,14 @@ const Product = ({ product }) => {
                     </CardContent>
                 </CardActionArea>
                 <CardActions>
-                    <CustomButton onClick={() => handlePurchaseNow(_id)} variant="contained" size="small" >
-                        Purchase <ArrowForwardIcon />
-                    </CustomButton>
+                    {
+                        children === "manage" ? <CustomButton onClick={() => handleProductDelete(_id)} variant="contained" size="small" >
+                            Delete
+                        </CustomButton> : <CustomButton onClick={() => handlePurchaseNow(_id)} variant="contained" size="small" >
+                            Purchase <ArrowForwardIcon />
+                        </CustomButton>
+                    }
+
                 </CardActions>
             </Card>
         </Grid>

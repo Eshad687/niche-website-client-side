@@ -1,6 +1,6 @@
 
 
-import { Button } from '@mui/material';
+import { Button, TextField, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Box } from '@mui/system';
 import React, { useState } from 'react';
@@ -9,6 +9,9 @@ import { useHistory, useLocation } from 'react-router';
 import useAuth from '../../Hooks/useAuth';
 import Footer from '../Shared/Footer/Footer';
 import Navigation from '../Shared/Navigation/Navigation';
+import GoogleIcon from '@mui/icons-material/Google';
+import CustomButton from '../../StyledComponents/CustomButton';
+import axios from 'axios';
 
 const LoginSignup = () => {
     const { createUser, signInWithGoogle, signInWithEmailPassword, setErrorMessage, updateName, setIsLoading, errorMessage } = useAuth();
@@ -41,7 +44,7 @@ const LoginSignup = () => {
             : createUser(data.email, data.password)
                 .then((result) => {
 
-
+                    saveUser(data.email, data.name);
                     updateName(data.name)
                     history.push(redirect_uri)
                     setErrorMessage('')
@@ -57,17 +60,22 @@ const LoginSignup = () => {
     };
 
     // handle google login
-    const handleGoogleLogin = () => {
-        signInWithGoogle()
-            .then(result => {
+    // const handleGoogleLogin = () => {
+    //     signInWithGoogle()
+    //         .then(result => {
 
-                history.push(redirect_uri)
-                setErrorMessage('');
-            }).catch(error => setErrorMessage(error.message))
-            .finally(() => setIsLoading(false));
+    //             history.push(redirect_uri)
+    //             setErrorMessage('');
+    //         }).catch(error => setErrorMessage(error.message))
+    //         .finally(() => setIsLoading(false));
+    // }
+
+
+    const saveUser = (email, displayName) => {
+        const user = { email, displayName };
+        axios.post('http://localhost:5000/users', user)
+            .then(res => console.log(res.data))
     }
-
-
 
     const useStyle = makeStyles({
         root: {
@@ -76,57 +84,96 @@ const LoginSignup = () => {
 
             backgroundPosition: 'center',
             backgroundSize: 'cover',
+            height: '80vh'
+
+
+
+
+        },
+        btn: {
+            background: 'linear-gradient(90deg,rgb(219, 75, 50),rgb(200, 25, 20))',
+            color: '#fff',
+            fontSize: 'large',
+            fontWeight: 500,
+            padding: '10px 0',
+            border: 0,
+            borderRadius: '5px',
+            width: '30%',
+
+            marginTop: '10px'
 
 
 
 
         }
     })
-    const { root } = useStyle();
+    const { root, btn } = useStyle();
     return (
         <Box>
             <Navigation></Navigation>
-            <Box className={root}>
+            <Box className={root} sx={{ textAlign: 'center' }}>
 
 
 
                 {
-                    login ? <h5>Please Log In</h5> : <h5>Please Sign Up</h5>
+                    login ? <Typography sx={{ pt: 15, color: "rgb(219, 75, 50)", fontWeight: "500", mb: 3 }} variant="h5">Please Log In</Typography> : <Typography sx={{ pt: 15, color: "rgb(219, 75, 50)", fontWeight: "500", mb: 3 }} variant="h5">Please Sign Up</Typography>
                 }
-                <form className="mt-12" onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={handleSubmit(onSubmit)}>
 
                     {
-                        !login && <> <input type="name" className="p-2 rounded-3 border-0" placeholder="Enter your name" {...register("name", { required: true })} /> <br />  {errors.email && <small className="text-danger m-0 p-0">This field is required</small>}<br /> </>
+                        !login && <> <TextField
+                            type="name"
+                            sx={{ width: '30%' }}
+                            label="Name"
+
+                            id="outlined-size-small"
+
+                            size="small"
+                            {...register("name", { required: true })} /> <br />  {errors.name && <small >This field is required</small>} <br /></>
                     }
 
-                    <input type="email" className=" p-2  rounded-3 border-0" placeholder="Enter your email" {...register("email", { required: true })} />
+                    <TextField
+                        type="email"
+                        sx={{ width: '30%' }}
+                        label="Email"
+
+                        id="outlined-size-small"
+
+                        size="small" {...register("email", { required: true })} />
 
                     <br />
-                    {errors.email && <small className="text-danger m-0 p-0">This field is required</small>}
+                    {errors.email && <small >This field is required</small>}
+                    <br />
+
+                    <TextField
+                        type="password"
+                        sx={{ width: '30%' }}
+                        label="Password"
+
+                        id="outlined-size-small"
+
+                        size="small" {...register("password", { required: true })} />
+
 
                     <br />
-                    <input type="password" className="bg-gray-200 p-2 w-80 rounded-3 border-0" placeholder="Enter Your password" {...register("password", { required: true })} />
-
-
-                    <br />
-                    {errors.password && <small className="text-danger">This field is required</small>}
-                    <small className="text-danger">{errorMessage}</small>
+                    {errors.password && <small >This field is required</small>}
+                    <small >{errorMessage}</small>
                     <br />
                     {
-                        login ? <input className="bg-info text-white px-5 py-2 w-80 rounded-3 border-0 btn" type="submit" value="Log In" /> : <input className="bg-info text-white px-5 py-2 rounded-3 border-0 btn" type="submit" value="Sign Up" />
+                        login ? <input className={btn} type="submit" value="Log In" /> : <input className={btn} type="submit" value="Sign Up" />
                     }
 
 
 
                 </form>
                 {
-                    login ? <small onClick={toggleLoginSignUp} className="text-primary link-button">Don't have an account?</small>
-                        : <small onClick={toggleLoginSignUp} className=" text-primary link-button">Already have an account?</small>
+                    login ? <Button size="small" variant="text" sx={{ color: "rgb(219, 75, 50)" }} onClick={toggleLoginSignUp} >Don't have an account?</Button>
+                        : <Button size="small" variant="text" sx={{ color: "rgb(219, 75, 50)" }} onClick={toggleLoginSignUp} >Already have an account?</Button>
                 }
                 <br />
                 <small>or</small>
                 <br />
-                <Button onClick={handleGoogleLogin} variant="contained" className=" px-5 py-2 rounded-3 border-0 btn"><i class="fab fa-google"></i> Sign in with Google</Button>
+                {/* <CustomButton onClick={handleGoogleLogin} variant="contained"><GoogleIcon />  Sign in with Google</CustomButton> */}
             </Box>
             <Footer></Footer>
 

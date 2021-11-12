@@ -1,9 +1,11 @@
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import './App.css';
 import AuthProvider from './Contexts/AuthProvider';
+import DashBoard from './Pages/DashBoard/Dashboard/DashBoard';
 import Explore from './Pages/Explore/Explore';
 import Home from './Pages/Home/Home/Home';
 import LoginSignup from './Pages/LoginSignup/LoginSignup';
+import PrivateRoute from './Pages/PrivateRoute/PrivateRoute';
 import ProductDetails from './Pages/ProductDetails/ProductDetails';
 
 function App() {
@@ -23,9 +25,12 @@ function App() {
           <Route path="/loginsignup">
             <LoginSignup></LoginSignup>
           </Route>
-          <Route path="/product/:id">
+          <PrivateRoute path="/product/:id">
             <ProductDetails></ProductDetails>
-          </Route>
+          </PrivateRoute>
+          <PrivateRoute path="/dashboard">
+            <DashBoard></DashBoard>
+          </PrivateRoute>
 
         </Switch>
       </BrowserRouter>
