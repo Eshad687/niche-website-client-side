@@ -63,6 +63,7 @@ const LoginSignup = () => {
     // SAVING USERS TO DATABASE
     const saveUser = (email, displayName) => {
         const user = { email, displayName };
+        console.log(user)
         axios.post('https://intense-tundra-40830.herokuapp.com/users', user)
             .then(res => console.log(res.data))
     }
