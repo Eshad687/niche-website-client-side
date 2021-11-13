@@ -123,7 +123,7 @@ const ProductDetails = () => {
                                 {...register("size", { required: true })} />
 
                             <br />
-                            {errors.email && <small >This field is required</small>}
+                            {errors.size && <small >This field is required</small>}
 
 
                             <br />
