@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -8,7 +8,7 @@ import { CardActionArea, CardActions } from '@mui/material';
 import CustomButton from '../../../StyledComponents/CustomButton';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useHistory } from 'react-router';
-
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const Product = ({ product, handleProductDelete, children }) => {
     const { name, img, desc, price, _id } = product;
@@ -42,9 +42,9 @@ const Product = ({ product, handleProductDelete, children }) => {
                 </CardActionArea>
                 <CardActions>
                     {
-                        children === "manage" ? <CustomButton onClick={() => handleProductDelete(_id)} variant="contained" size="small" >
-                            Delete
-                        </CustomButton> : <CustomButton onClick={() => handlePurchaseNow(_id)} variant="contained" size="small" >
+                        children === "manage" ? <Button onClick={() => handleProductDelete(_id)} sx={{ background: 'red' }} variant="contained" size="small" >
+                            Delete <DeleteIcon />
+                        </Button> : <CustomButton onClick={() => handlePurchaseNow(_id)} variant="contained" size="small" >
                             Purchase <ArrowForwardIcon />
                         </CustomButton>
                     }

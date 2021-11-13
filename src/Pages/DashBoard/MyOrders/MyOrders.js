@@ -1,10 +1,10 @@
-import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material';
+import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, CircularProgress, Grid, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import useAuth from '../../../Hooks/useAuth';
 import useDelete from '../../../Hooks/useDelete';
-
+import DeleteIcon from '@mui/icons-material/Delete';
 const MyOrders = () => {
     const [myOrders, setMyOrders] = useState([]);
     const { user } = useAuth();
@@ -14,7 +14,7 @@ const MyOrders = () => {
 
     // GETTING USERS BOOKING DATA FROM DATABASE
     useEffect(() => {
-        axios.get(`http://localhost:5000/orders/${user?.email}`)
+        axios.get(`https://intense-tundra-40830.herokuapp.com/orders/${user?.email}`)
             .then(res => setMyOrders(res.data))
     }, [isDeleted])
 
@@ -28,7 +28,7 @@ const MyOrders = () => {
 
                 {/* USERS ORDERS DATA */}
                 <Grid container spacing={2}>
-                    {
+                    {myOrders ?
                         myOrders.map(order => <Grid key={order._id} item xs={12} md={3}>
                             <Card sx={{ maxWidth: 345 }}>
                                 <CardActionArea>
@@ -52,11 +52,14 @@ const MyOrders = () => {
                                 </CardActionArea>
                                 <CardActions>
                                     <Button onClick={() => handleDelete(order._id)} variant="contained" size="small" sx={{ background: 'red' }} >
-                                        Delete
+                                        Delete <DeleteIcon />
                                     </Button>
                                 </CardActions>
                             </Card>
-                        </Grid>)
+                        </Grid>) : <Box sx={{ display: 'flex', m: '0 auto' }}>
+                            <CircularProgress />
+
+                        </Box>
                     }
                 </Grid>
 

@@ -8,7 +8,9 @@ import { useForm } from 'react-hook-form';
 const AddProduct = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const onSubmit = data => {
-        axios.post('http://localhost:5000/products', data)
+
+        // SAVING PRODUCTS DATA ON DATABASE
+        axios.post('https://intense-tundra-40830.herokuapp.com/products', data)
             .then(res => {
                 console.log(res.data.insertedId)
                 if (res.data.insertedId) {
@@ -42,6 +44,7 @@ const AddProduct = () => {
 
     return (
         <Box>
+            {/* PRODUCT ADDING FORM */}
             <form style={{ textAlign: 'center', boxShadow: "1px 1px 2px", padding: "20px 0", borderRadius: '15px' }} className="py-3" onSubmit={handleSubmit(onSubmit)}>
 
 

@@ -9,12 +9,11 @@ import { useHistory, useLocation } from 'react-router';
 import useAuth from '../../Hooks/useAuth';
 import Footer from '../Shared/Footer/Footer';
 import Navigation from '../Shared/Navigation/Navigation';
-import GoogleIcon from '@mui/icons-material/Google';
-import CustomButton from '../../StyledComponents/CustomButton';
+
 import axios from 'axios';
 
 const LoginSignup = () => {
-    const { createUser, signInWithGoogle, signInWithEmailPassword, setErrorMessage, updateName, setIsLoading, errorMessage } = useAuth();
+    const { createUser, signInWithEmailPassword, setErrorMessage, updateName, setIsLoading, errorMessage } = useAuth();
 
     const [login, setLogin] = useState(true)
 
@@ -59,21 +58,12 @@ const LoginSignup = () => {
 
     };
 
-    // handle google login
-    // const handleGoogleLogin = () => {
-    //     signInWithGoogle()
-    //         .then(result => {
-
-    //             history.push(redirect_uri)
-    //             setErrorMessage('');
-    //         }).catch(error => setErrorMessage(error.message))
-    //         .finally(() => setIsLoading(false));
-    // }
 
 
+    // SAVING USERS TO DATABASE
     const saveUser = (email, displayName) => {
         const user = { email, displayName };
-        axios.post('http://localhost:5000/users', user)
+        axios.post('https://intense-tundra-40830.herokuapp.com/users', user)
             .then(res => console.log(res.data))
     }
 
@@ -170,10 +160,7 @@ const LoginSignup = () => {
                     login ? <Button size="small" variant="text" sx={{ color: "rgb(219, 75, 50)" }} onClick={toggleLoginSignUp} >Don't have an account?</Button>
                         : <Button size="small" variant="text" sx={{ color: "rgb(219, 75, 50)" }} onClick={toggleLoginSignUp} >Already have an account?</Button>
                 }
-                <br />
-                <small>or</small>
-                <br />
-                {/* <CustomButton onClick={handleGoogleLogin} variant="contained"><GoogleIcon />  Sign in with Google</CustomButton> */}
+
             </Box>
             <Footer></Footer>
 

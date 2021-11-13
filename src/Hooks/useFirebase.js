@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 import initializeAuthentication from "../Firebase/firebase.init";
 import axios from "axios";
 
@@ -12,7 +12,7 @@ const useFirebase = () => {
     const [user, setUser] = useState({});
     const [errorMessage, setErrorMessage] = useState('');
     const [admin, setAdmin] = useState(false)
-    // const googleProvider = new GoogleAuthProvider();
+
 
     const auth = getAuth();
 
@@ -34,16 +34,11 @@ const useFirebase = () => {
     }, [])
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/users/${user.email}`)
+        axios.get(`https://intense-tundra-40830.herokuapp.com/users/${user.email}`)
             .then(res => setAdmin(res.data.admin))
     }, [user.email])
 
-    // handling google sign in
-    // const signInWithGoogle = () => {
-    //     setIsLoading(true);
-    //     return signInWithPopup(auth, googleProvider);
 
-    // }
 
     // creating user
     const createUser = (email, password) => {
@@ -89,7 +84,7 @@ const useFirebase = () => {
         setErrorMessage,
         createUser,
         signInWithEmailPassword,
-        //signInWithGoogle,
+
         logOut
     }
 

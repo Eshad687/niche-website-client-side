@@ -42,13 +42,13 @@ import ManageProducts from '../ManageProducts/ManageProducts';
 import useAuth from '../../../Hooks/useAuth';
 import AdminRoute from '../../AdminRoute/AdminRoute';
 import ClientRoute from '../../ClientRoute/ClientRoute';
-
+import LogoutIcon from '@mui/icons-material/Logout';
 const drawerWidth = 240;
 
 function Dashboard(props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
-    const { admin, logOut } = useAuth()
+    const { admin, logOut, user } = useAuth()
     let { path, url } = useRouteMatch();
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -68,6 +68,7 @@ function Dashboard(props) {
             </Toolbar>
             <Divider />
             <List>
+                {/*NORMAL USERS DASHBOARD */}
                 {
                     !admin && <Box>
 
@@ -97,6 +98,8 @@ function Dashboard(props) {
                         </Link> </Button>
                     </Box>
                 }
+
+                {/* ADMINS DASHBOARD */}
                 {
                     admin && <Box>
                         <Button  > <Link style={{ textDecoration: "none", color: "#000" }} to={`${url}/manageOrders`}>
@@ -135,7 +138,7 @@ function Dashboard(props) {
                 }
                 <Divider />
                 <ListItem>
-                    <CustomButton onClick={logOut} variant="contained">Log out</CustomButton>
+                    <CustomButton onClick={logOut} variant="contained">Log out <LogoutIcon sx={{ ml: 1 }} /></CustomButton>
                 </ListItem>
             </List>
 
@@ -168,7 +171,7 @@ function Dashboard(props) {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap component="div">
-                        Dashboard
+                        {`${user?.displayName}'s Dashboard`}
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -209,6 +212,7 @@ function Dashboard(props) {
                 sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
             >
                 <Toolbar />
+                {/* NESTED ROUTES */}
                 <Switch>
                     <Route exact path={path}>
                         {

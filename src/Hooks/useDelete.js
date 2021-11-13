@@ -6,11 +6,11 @@ const useDelete = () => {
     const [productDeleted, setProductDeleted] = useState(false);
 
 
-    // DELETING DATA FROM DATABASE
+    // DELETING ORDERS DATA FROM DATABASE
     const handleDelete = (id) => {
         const proceed = window.confirm('Are you sure?')
         if (proceed) {
-            axios.delete(`http://localhost:5000/orders/${id}`)
+            axios.delete(`https://intense-tundra-40830.herokuapp.com/orders/${id}`)
                 .then(res => {
 
                     if (res.data.deletedCount > 0) {
@@ -23,11 +23,11 @@ const useDelete = () => {
         }
     }
 
-    // DELETING DATA FROM DATABASE
+    // DELETING PRODUCTS DATA FROM DATABASE
     const handleProductDelete = (id) => {
         const proceed = window.confirm('Are you sure?')
         if (proceed) {
-            axios.delete(`http://localhost:5000/products/${id}`)
+            axios.delete(`https://intense-tundra-40830.herokuapp.com/products/${id}`)
                 .then(res => {
 
                     if (res.data.deletedCount > 0) {

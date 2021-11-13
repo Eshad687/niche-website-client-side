@@ -15,7 +15,9 @@ const MakeAdmin = () => {
         e.preventDefault();
 
         const user = { adminEmail }
-        axios.put(`http://localhost:5000/users/admin`, user)
+
+        // UPDATING ROLE OF AN USER TO ADMIN ON DATABASE
+        axios.put(`https://intense-tundra-40830.herokuapp.com/users/admin`, user)
             .then(res => {
                 if (res.data.modifiedCount) {
                     setSuccess(true);

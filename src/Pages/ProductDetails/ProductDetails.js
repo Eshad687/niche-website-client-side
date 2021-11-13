@@ -1,4 +1,5 @@
-import { Container, Grid, TextField, Typography } from '@mui/material';
+import { CircularProgress, Container, Grid, TextField, Typography } from '@mui/material';
+import { Box } from '@mui/system';
 
 import axios from 'axios';
 
@@ -23,7 +24,7 @@ const ProductDetails = () => {
     const onSubmit = data => {
         data.status = "pending";
         data.img = sneaker?.img;
-        axios.post('http://localhost:5000/orders', data)
+        axios.post('https://intense-tundra-40830.herokuapp.com/orders', data)
             .then(res => {
                 console.log(res.data.insertedId)
                 if (res.data.insertedId) {
@@ -42,12 +43,17 @@ const ProductDetails = () => {
             <Navigation></Navigation>
             <Container sx={{ mt: 15 }}>
                 <Grid container spacing={4} >
-                    <Grid item xs={12} md={5}>
-                        <img style={{ borderRadius: 10, width: '100%' }} src={sneaker?.img} alt="" />
-                        <Typography variant="h4" sx={{ fontWeight: '500' }}>{sneaker?.name}</Typography>
-                        <Typography variant="body1" sx={{ color: 'text.secondary', my: 2 }}>{sneaker?.desc}</Typography>
-                        <Typography variant="h5" sx={{ fontWeight: '500', color: 'rgb(219, 75, 50)' }}>Price: ${sneaker?.price}</Typography>
-                    </Grid>
+                    {sneaker ?
+                        <Grid item xs={12} md={5}>
+                            <img style={{ borderRadius: 10, width: '100%' }} src={sneaker?.img} alt="" />
+                            <Typography variant="h4" sx={{ fontWeight: '500' }}>{sneaker?.name}</Typography>
+                            <Typography variant="body1" sx={{ color: 'text.secondary', my: 2 }}>{sneaker?.desc}</Typography>
+                            <Typography variant="h5" sx={{ fontWeight: '500', color: 'rgb(219, 75, 50)' }}>Price: ${sneaker?.price}</Typography>
+                        </Grid> : <Box sx={{ display: 'flex', m: '0 auto' }}>
+                            <CircularProgress />
+
+                        </Box>
+                    }
                     <Grid item xs={12} md={7}>
                         <form style={{ textAlign: 'center', boxShadow: "1px 1px 2px", padding: "20px 0", borderRadius: '15px' }} className="py-3" onSubmit={handleSubmit(onSubmit)}>
 
@@ -114,8 +120,10 @@ const ProductDetails = () => {
                                 id="outlined-size-small"
 
                                 size="small"
-                                {...register("size")} />
+                                {...register("size", { required: true })} />
 
+                            <br />
+                            {errors.email && <small >This field is required</small>}
 
 
                             <br />

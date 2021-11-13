@@ -8,7 +8,7 @@ const AdminRoute = ({ children, ...rest }) => {
 
     // solving page reload getting back to login page
     const { user, isLoading, admin } = useAuth();
-    // console.log(isLoading)
+
     if (!admin || isLoading) {
 
         return <Box sx={{ display: 'flex' }}>

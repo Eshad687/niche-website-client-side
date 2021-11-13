@@ -5,9 +5,10 @@ import useDelete from "./useDelete";
 const useProducts = (page) => {
     const [products, setProducts] = useState([]);
     const { productDeleted, handleProductDelete } = useDelete()
-    console.log(productDeleted);
+
+    //GETTING PRODUTS DATA BASED ON PAGE
     useEffect(() => {
-        axios.get(`http://localhost:5000/products?page=${page}`)
+        axios.get(`https://intense-tundra-40830.herokuapp.com/products?page=${page}`)
             .then(res => setProducts(res.data))
     }, [productDeleted])
 

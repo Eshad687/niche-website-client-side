@@ -6,6 +6,8 @@ import CustomButton from '../../../StyledComponents/CustomButton';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const Banner = () => {
+
+    // CAROUSEL DATA
     const items = [
         {
             name: 'Cool Sneakers for Cool People',
@@ -20,7 +22,7 @@ const Banner = () => {
 
         },
         {
-            name: 'Trendy Luxurious Snickers',
+            name: 'Trendy Luxurious Sneackers',
             description: 'From luxurios brands of the world we fulfill your wish and bring the most original and luxurious shoes.',
             img: 'https://i.ibb.co/4WyW3bG/Capture3.png',
 

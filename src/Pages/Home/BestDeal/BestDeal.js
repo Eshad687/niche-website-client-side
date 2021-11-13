@@ -16,7 +16,7 @@ const BestDeal = () => {
             backgroundBlendMode: 'darken, luminosity',
             backgroundPosition: 'center',
             backgroundSize: 'cover',
-            height: '80vh'
+
 
 
 
@@ -27,7 +27,7 @@ const BestDeal = () => {
     return (
 
 
-        <Box className={root}>
+        <Box className={root} sx={{ height: { md: '80vh' } }} >
 
             <Container sx={{ my: 10 }}>
                 <Typography sx={{ textAlign: 'center', fontWeight: '600', color: 'rgb(219, 75, 50)', py: 2 }} variant="h3">DEAL OF THE DAY</Typography>
@@ -47,7 +47,7 @@ const BestDeal = () => {
 
             </Container>
 
-        </Box>
+        </Box >
 
     );
 };

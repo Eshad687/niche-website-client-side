@@ -15,7 +15,8 @@ import { Button } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import useAuth from '../../../Hooks/useAuth';
 import CustomButton from '../../../StyledComponents/CustomButton';
-
+import LogoutIcon from '@mui/icons-material/Logout';
+import LoginIcon from '@mui/icons-material/Login';
 
 const Navigation = () => {
     // getting data from authentication context api
@@ -55,6 +56,8 @@ const Navigation = () => {
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
+
+            {/* FOR SMALL DEVICES */}
             <MenuItem>
                 <Button  > <NavLink style={{ textDecoration: "none", color: "grey" }} to="/home">Home</NavLink> </Button>
 
@@ -72,9 +75,9 @@ const Navigation = () => {
             {user?.email && <MenuItem> <Typography variant="h6"> {user.displayName}</Typography></MenuItem>}
             {
                 user.email ? <MenuItem >
-                    <CustomButton onClick={logOut} variant="contained" > Logout </CustomButton>
+                    <CustomButton onClick={logOut} variant="contained" > Logout <LogoutIcon sx={{ ml: 1 }} /></CustomButton>
                 </MenuItem> : <MenuItem >
-                    <Button  > <NavLink style={{ textDecoration: "none", color: "grey" }} to="/loginsignup">Login</NavLink> </Button>
+                    <Button onClick={() => setErrorMessage('')} > <NavLink style={{ textDecoration: "none", color: "grey" }} to="/loginsignup">Login <LoginIcon sx={{ verticalAlign: 'middle' }} /></NavLink> </Button>
                 </MenuItem>
             }
         </Menu>
@@ -112,9 +115,9 @@ const Navigation = () => {
                         {user?.email && <Typography variant="h6" sx={{ mx: 1 }}> {user.displayName}</Typography>}
                         {
                             user.email ?
-                                <CustomButton onClick={logOut} variant="contained" > Logout </CustomButton>
+                                <CustomButton onClick={logOut} variant="contained" > Logout <LogoutIcon sx={{ ml: 1 }} /></CustomButton>
                                 :
-                                <Button  > <NavLink style={{ textDecoration: "none", color: "#fff" }} to="/loginsignup">Login</NavLink> </Button>
+                                <Button onClick={() => setErrorMessage('')}> <NavLink style={{ textDecoration: "none", color: "#fff" }} to="/loginsignup">Login <LoginIcon sx={{ verticalAlign: 'middle' }} /></NavLink> </Button>
 
                         }
 

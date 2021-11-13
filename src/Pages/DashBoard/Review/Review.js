@@ -14,7 +14,9 @@ const Review = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const onSubmit = data => {
         data.rating = value;
-        axios.post('http://localhost:5000/reviews', data)
+
+        // POSTING REVIEWS ON DATABASE
+        axios.post('https://intense-tundra-40830.herokuapp.com/reviews', data)
             .then(res => {
                 console.log(res.data.insertedId)
                 if (res.data.insertedId) {
